@@ -30,6 +30,14 @@ class MyApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue , brightness: Brightness.light, secondary: Colors.blue.shade200),
+        textTheme: const TextTheme(
+          titleMedium: TextStyle(
+            fontSize: 23 ,
+          ) ,
+          titleSmall: TextStyle(
+            fontSize: 18 ,
+          )
+        ),
         
         useMaterial3: true,
       ),
