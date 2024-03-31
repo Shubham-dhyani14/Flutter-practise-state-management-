@@ -2,13 +2,17 @@
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
-  
+  const ProductCard({super.key , required this.title , required this.imageUrl , required this.price , required this.color }); // doubt ⚠️ can't i  make color as optional init with default val
+  final String title  ;
+  final String imageUrl ;
+  final double price  ;
+  final Color color ;
+  // final List<int> sizes  ;
   @override
   Widget build(BuildContext context) {
     return  Container(
       decoration: BoxDecoration(
-        color: Colors.pink.shade100 ,
+        color: color,
         borderRadius: BorderRadius.circular(12) ,
         ), 
       width: double.infinity,
@@ -17,9 +21,9 @@ class ProductCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text('Sasta Budget Shoes', style: Theme.of(context).textTheme.titleMedium,) , 
-          Text('150 ₹', style: Theme.of(context).textTheme.titleSmall) , 
-          Image.asset('assets/images/shoes_3.png')
+          Text(title, style: Theme.of(context).textTheme.titleMedium,) , 
+          Text('${price.toStringAsFixed(0)} ₹', style: Theme.of(context).textTheme.titleSmall) , 
+          Image.asset(imageUrl.toString())
         ],
       ),
     );

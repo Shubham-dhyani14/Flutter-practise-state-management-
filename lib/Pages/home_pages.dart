@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cart_state_management/constants/product_data.dart';
 import 'package:cart_state_management/widgets/product_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +21,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return  SafeArea(
       child: Scaffold(
+        bottomNavigationBar:  BottomNavigationBar(items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
+
+        ],),
         body:
          Container(
           padding: const EdgeInsets.fromLTRB(12, 43, 0, 0) ,
@@ -88,7 +95,7 @@ class _HomePageState extends State<HomePage> {
             //  Padding( !!doubt : why this widget not giving listview expanded height⚠️⚠️⚠️⚠️
             //   padding:  const EdgeInsets.only(right: 12),
             //   child:  
-              Expanded(
+              Expanded( 
                 
                 child: Padding(
                   padding:const EdgeInsets.only(right: 12),
@@ -98,10 +105,15 @@ class _HomePageState extends State<HomePage> {
                     itemCount: products.length ,
                     itemBuilder: (context, index) {
                       // return const Text('fdf');
-                      return const Column(
+                      return  Column(
                         children: [
-                           ProductCard(),
-                           SizedBox(height: 22,),
+                           ProductCard(
+                            title: products[index]['title'].toString(),
+                            price: products[index]['price'] as double,
+                            imageUrl: products[index]['imageUrl'] as String,
+                            color: index%2 == 0 ? Colors.pink.shade100 : Colors.blue.shade100  ,
+                            ),
+                           const SizedBox(height: 22,),
                         ],
                       );
                     },
