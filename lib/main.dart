@@ -1,4 +1,6 @@
 import 'package:cart_state_management/Pages/home_pages.dart';
+import 'package:cart_state_management/Pages/product_details_page.dart';
+import 'package:cart_state_management/constants/product_data.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -6,6 +8,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  
   const MyApp({super.key});
 
   // This widget is the root of your application.
@@ -31,6 +34,10 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue , brightness: Brightness.light, secondary: Colors.blue.shade200),
         textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            fontWeight: FontWeight.bold ,
+            fontSize: 32 ,
+          ),
           titleMedium: TextStyle(
             fontSize: 23 ,
           ) ,
@@ -41,7 +48,9 @@ class MyApp extends StatelessWidget {
         
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      
+      home: ProductDetail(product: products[0],),
+      // home: const HomePage(),
     );
   }
 }
