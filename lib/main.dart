@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       
-      home: ProductDetail(product: products[0],),
+      home: const HomePage(),
       // home: const HomePage(),
     );
   }
