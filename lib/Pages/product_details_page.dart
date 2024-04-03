@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cart_state_management/Providers/cart_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetail extends StatelessWidget {
   const ProductDetail({super.key , required this.product});
@@ -52,7 +52,9 @@ class ProductDetail extends StatelessWidget {
                   width: 300,
                   child: ElevatedButton.icon(
                     
-                    onPressed: (){}, 
+                    onPressed: (){
+                      Provider.of<CartProvider>(context , listen: false).addProduct(product);
+                    }, 
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.yellow,
                     ),
