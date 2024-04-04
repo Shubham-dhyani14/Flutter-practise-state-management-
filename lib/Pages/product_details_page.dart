@@ -1,23 +1,34 @@
+import 'dart:convert';
+
 import 'package:cart_state_management/Providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProductDetail extends StatelessWidget {
+class ProductDetail extends StatefulWidget {
   const ProductDetail({super.key , required this.product});
-   final  Map<String, Object> product ;
+  final Map<String, Object> product ;
+
+  @override
+  State<ProductDetail> createState() => _ProductDetailState();
+}
+
+class _ProductDetailState extends State<ProductDetail> {
+
+  int selectedSize = 0 ;
   @override
   Widget build(BuildContext context) {
-   final List<int> sizes = product['sizes'] as List<int>;
+
+   final List<int> sizes = widget.product['sizes'] as List<int>;
 
     return  Scaffold(
       appBar: AppBar(title: Text('Details' ,style: Theme.of(context).textTheme.titleMedium,),),
       body: Column( 
         children: [
-          Text(product['title'] as String , style: Theme.of(context).textTheme.titleLarge,) ,
+          Text(widget.product['title'] as String , style: Theme.of(context).textTheme.titleLarge,) ,
           const Spacer(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18.0),
-            child: Image.asset(product['imageUrl'] as String ,height: 300,),
+            child: Image.asset(widget.product['imageUrl'] as String ,height: 300,),
           ),
           const Spacer(flex: 2,),
           Container(
@@ -29,7 +40,7 @@ class ProductDetail extends StatelessWidget {
             ),
             child: Column(children: [
               const SizedBox(height: 22,) ,
-              Text('${product['price'].toString()} ₹' ,style: Theme.of(context).textTheme.titleLarge),
+              Text('${widget.product['price'].toString()} ₹' ,style: Theme.of(context).textTheme.titleLarge),
 
                 SizedBox(
                   height: 70,
@@ -38,22 +49,51 @@ class ProductDetail extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: sizes.length,
                     itemBuilder: (context, index) {
+                      int size = sizes[index] ;
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Chip(
-                         label: Text(sizes[index].toString()) ,
-                         backgroundColor: Colors.teal.shade50 ,
-                      ),);
+                        child: GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              selectedSize = size ;
+                            });
+                          },
+                          child: Chip(
+                           label: Text(sizes[index].toString()) ,
+                           backgroundColor: selectedSize == size ? Theme.of(context).colorScheme.secondary : Colors.teal.shade50  ,
+                                                ),
+                        ),);
                     },
                   ),
                 ),
                 const Spacer() ,
+                
                 SizedBox(
                   width: 300,
                   child: ElevatedButton.icon(
                     
                     onPressed: (){
-                      Provider.of<CartProvider>(context , listen: false).addProduct(product);
+                      if(selectedSize == 0){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                           const SnackBar(
+                            duration: Duration(seconds: 2), 
+                            content: Text('Jadi Shoe size select karoo..'),
+                            ),
+                          ) ;
+                          return ;
+                      }
+                      Map<String,dynamic> productWithSize =  jsonDecode(jsonEncode(widget.product)) ;
+                      productWithSize['selectedSize'] = selectedSize ;
+                      // widget.product['selectedSize'] = selectedSize ;
+
+                     
+                      Provider.of<CartProvider>(context , listen: false).addProduct(productWithSize);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                           const SnackBar(
+                            duration: Duration(seconds: 2), 
+                            content: Text('Hogya Bhai Add Hogya !!'),
+                            ),
+                          ) ;
                     }, 
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.yellow,
